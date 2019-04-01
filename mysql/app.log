@@ -1,0 +1,4 @@
+03/31/2019 07:56:59 PM MyLog.py[line:55]INFO - info
+03/31/2019 07:56:59 PM MyLog.py[line:56]WARNING - warning
+03/31/2019 07:56:59 PM MyLog.py[line:57]ERROR - error
+03/31/2019 07:56:59 PM MyLog.py[line:58]CRITICAL - critical message
