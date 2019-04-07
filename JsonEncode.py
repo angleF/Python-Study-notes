@@ -27,6 +27,8 @@ class CustomizeEncode(json.JSONEncoder):
                         fields[field] = data.isoformat()
                     elif isinstance(data, datetime.timedelta):
                         fields[field] = (datetime.datetime.min + data).time().isoformat()
+                    elif is_super_instance(data, DeclarativeMeta):
+                        fields[field] = json.dumps(data, cls=CustomizeEncode, ensure_ascii=False)
                     else:
                         fields[field] = None
             # a json-encodable dict
@@ -36,4 +38,18 @@ class CustomizeEncode(json.JSONEncoder):
 
 
 def to_json_str(obj):
-    return json.dumps(obj, cls=CustomizeEncode)
+    return json.dumps(obj, cls=CustomizeEncode, ensure_ascii=False)
+
+
+def is_super_instance(obj, cls):
+    # 使用传统的遍历循环
+    #     bases__ = obj.__class__.__bases__
+    #     for base_obj in bases__:
+    #         if isinstance(base_obj, cls):
+    #             return True
+    #         break
+    #     return False
+    # 使用filter函数
+    # return list(filter(lambda base_obj: isinstance(base_obj, cls), obj.__class__.__bases__))
+    # 使用列表推导
+    return [base_obj for base_obj in obj.__class__.__bases__ if isinstance(base_obj, cls)]
